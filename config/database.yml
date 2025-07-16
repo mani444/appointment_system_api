@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  timeout: 5000
+
+development:
+  <<: *default
+  database: appointment_system_api_development
+  port: 5433
+
+test:
+  <<: *default
+  database: appointment_system_api_test
+  port: 5433
+
+production:
+  <<: *default
+  database: appointment_system_api_production
