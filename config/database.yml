@@ -7,13 +7,23 @@ default: &default
 development:
   <<: *default
   database: appointment_system_api_development
+  username: postgres
+  password: 4045
+  host: localhost
   port: 5433
 
 test:
   <<: *default
   database: appointment_system_api_test
+  username: postgres
+  password: 4045
+  host: localhost
   port: 5433
 
 production:
   <<: *default
   database: appointment_system_api_production
+  username: postgres
+  password: 4045
+  host: localhost
+  port: 5433
