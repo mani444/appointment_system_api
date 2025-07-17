@@ -37,7 +37,17 @@ A clean, focused Rails API for managing clients and appointments with PostgreSQL
    bundle install
    ```
 
-3. **Database setup**
+3. **Environment setup**
+
+   ```bash
+   # Copy environment template
+   cp .env.example .env
+   
+   # Edit .env with your database credentials if needed
+   # Default values should work for local development
+   ```
+
+4. **Database setup**
 
    ```bash
    # Create and migrate database
