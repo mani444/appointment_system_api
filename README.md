@@ -27,7 +27,7 @@ A clean, focused Rails API for managing clients and appointments with PostgreSQL
 1. **Clone the repository**
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/mani444/appointment_system_api.git
    cd appointment_system_api
    ```
 
@@ -42,7 +42,7 @@ A clean, focused Rails API for managing clients and appointments with PostgreSQL
    ```bash
    # Copy environment template
    cp .env.example .env
-   
+
    # Edit .env with your database credentials if needed
    # Default values should work for local development
    ```
@@ -58,7 +58,7 @@ A clean, focused Rails API for managing clients and appointments with PostgreSQL
    rails db:seed
    ```
 
-4. **Start the server**
+5. **Start the server**
 
    ```bash
    rails server
@@ -66,7 +66,7 @@ A clean, focused Rails API for managing clients and appointments with PostgreSQL
 
    The API will be available at `http://localhost:3000`
 
-5. **Verify setup**
+6. **Verify setup**
 
    ```bash
    curl http://localhost:3000/up
