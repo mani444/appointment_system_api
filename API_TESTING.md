@@ -13,11 +13,6 @@
    rails db:seed
    ```
 
-3. **Start background jobs (optional):**
-   ```bash
-   bin/jobs
-   ```
-
 ## API Endpoints
 
 ### Base URL: `http://localhost:3000`
@@ -31,47 +26,11 @@ Get all clients
 curl -X GET http://localhost:3000/clients
 ```
 
-**Response:**
-```json
-{
-  "success": true,
-  "message": null,
-  "data": [
-    {
-      "id": 1,
-      "name": "John Doe",
-      "email": "john@example.com",
-      "phone": "1234567890"
-    },
-    {
-      "id": 2,
-      "name": "Jane Smith",
-      "email": "jane@example.com",
-      "phone": "9876543210"
-    }
-  ]
-}
-```
-
 ### GET /clients/:id
 Get specific client
 
 ```bash
 curl -X GET http://localhost:3000/clients/1
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "message": null,
-  "data": {
-    "id": 1,
-    "name": "John Doe",
-    "email": "john@example.com",
-    "phone": "1234567890"
-  }
-}
 ```
 
 ### POST /clients
@@ -87,20 +46,6 @@ curl -X POST http://localhost:3000/clients \
       "phone": "5555555555"
     }
   }'
-```
-
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Client created successfully",
-  "data": {
-    "id": 3,
-    "name": "New Client",
-    "email": "new@example.com",
-    "phone": "5555555555"
-  }
-}
 ```
 
 ### PUT /clients/:id
@@ -134,26 +79,6 @@ Get all appointments
 curl -X GET http://localhost:3000/appointments
 ```
 
-**Response:**
-```json
-{
-  "success": true,
-  "message": null,
-  "data": [
-    {
-      "id": 1,
-      "client_id": 1,
-      "time": "2025-07-17T10:00:00.000Z"
-    },
-    {
-      "id": 2,
-      "client_id": 2,
-      "time": "2025-07-17T14:00:00.000Z"
-    }
-  ]
-}
-```
-
 ### GET /appointments?client_id=1
 Filter appointments by client
 
@@ -182,19 +107,6 @@ curl -X POST http://localhost:3000/appointments \
   }'
 ```
 
-**Response:**
-```json
-{
-  "success": true,
-  "message": "Appointment created successfully",
-  "data": {
-    "id": 3,
-    "client_id": 1,
-    "time": "2025-07-20T15:00:00.000Z"
-  }
-}
-```
-
 ### PUT /appointments/:id
 Update appointment
 
@@ -216,93 +128,34 @@ Delete appointment
 curl -X DELETE http://localhost:3000/appointments/1
 ```
 
-## Error Handling
+## Response Format
 
-### Validation Errors
+All API responses follow this structure:
+
+**Success Response:**
 ```json
 {
-  "success": false,
-  "errors": [
-    "Name can't be blank",
-    "Email has already been taken"
-  ]
+  "success": true,
+  "message": "Optional message",
+  "data": { /* actual data */ }
 }
 ```
 
-### Not Found Errors
+**Error Response:**
 ```json
 {
   "success": false,
-  "errors": [
-    "Couldn't find Client with 'id'=999"
-  ]
+  "errors": ["Error message 1", "Error message 2"]
 }
-```
-
-## Frontend Integration Notes
-
-### CORS
-- CORS is enabled for all origins in development
-- All standard HTTP methods are supported
-- No authentication required for basic operations
-
-### Data Format
-- All requests should send JSON with `Content-Type: application/json`
-- All responses are in JSON format
-- Dates are in ISO 8601 format (e.g., "2025-07-17T10:00:00.000Z")
-
-### Sample Frontend Code
-
-#### JavaScript/Fetch
-```javascript
-// Get all clients
-fetch('http://localhost:3000/clients')
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      console.log('Clients:', data.data);
-    } else {
-      console.error('Errors:', data.errors);
-    }
-  });
-
-// Create appointment
-fetch('http://localhost:3000/appointments', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    appointment: {
-      client_id: 1,
-      time: '2025-07-20T15:00:00Z'
-    }
-  })
-})
-.then(response => response.json())
-.then(data => {
-  if (data.success) {
-    console.log('Appointment created:', data.data);
-  } else {
-    console.error('Errors:', data.errors);
-  }
-});
 ```
 
 ## Background Jobs
 
-The system includes background jobs for:
-- **Data Sync**: Runs every 6 hours (development) / 4 hours (production)
-- **Daily Reminders**: Runs at 9am every day
-- **Hourly Reminders**: Runs every hour
+The system includes a simple background job for periodic data sync:
 
-### Manual Job Testing
 ```bash
 # Test data sync job
-rails runner "DataSyncJob.perform_now('full')"
-
-# Test reminder job
-rails runner "AppointmentReminderJob.perform_now('daily')"
+rails runner "DataSyncJob.perform_now"
 ```
 
 ## Database Reset
