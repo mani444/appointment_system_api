@@ -4,10 +4,7 @@ class DataSyncJob < ApplicationJob
   def perform
     Rails.logger.info "Starting periodic data sync simulation"
     
-    # Simulate syncing client data
     sync_clients
-    
-    # Simulate syncing appointment data
     sync_appointments
     
     Rails.logger.info "Periodic data sync completed"

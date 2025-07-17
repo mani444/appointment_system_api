@@ -18,6 +18,7 @@ class ApplicationController < ActionController::API
 
   protected
 
+  # Consistent JSON response format for all endpoints
   def render_success(data = {}, message = nil, status = :ok)
     render json: {
       success: true,
