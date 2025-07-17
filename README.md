@@ -8,7 +8,7 @@ A clean, focused Rails API for managing clients and appointments with PostgreSQL
 - [Technology Stack](#technology-stack)
 - [Architecture Overview](#architecture-overview)
 - [API Endpoints](#api-endpoints)
-- [Design Decisions & Validation Assumptions](#design-decisions--assumptions)
+- [Design Decisions & Validation Assumptions](#design-decisions--validation-assumptions)
 - [Error Handling](#error-handling)
 - [Background Jobs](#background-jobs)
 - [Time Investment](#time-investment)
