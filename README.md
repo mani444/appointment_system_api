@@ -8,7 +8,7 @@ A clean, focused Rails API for managing clients and appointments with PostgreSQL
 - [Technology Stack](#technology-stack)
 - [Architecture Overview](#architecture-overview)
 - [API Endpoints](#api-endpoints)
-- [Design Decisions & Assumptions](#design-decisions--assumptions)
+- [Design Decisions & Validation Assumptions](#design-decisions--assumptions)
 - [Error Handling](#error-handling)
 - [Background Jobs](#background-jobs)
 - [Time Investment](#time-investment)
@@ -87,15 +87,6 @@ A clean, focused Rails API for managing clients and appointments with PostgreSQL
 
 ## Architecture Overview
 
-### Design Philosophy
-
-This API follows a simplified, maintainable architecture prioritizing:
-
-- **Clarity over complexity** - Clean, readable code with explicit intentions
-- **Rails conventions** - Leveraging framework best practices
-- **Focused functionality** - Core features without unnecessary abstraction
-- **Consistent responses** - Structured JSON format across all endpoints
-
 ### Data Model
 
 ```
@@ -115,29 +106,6 @@ Client (1) ──── (many) Appointment
 3. **Response** → Structured JSON via helper methods
 
 ## API Endpoints
-
-All endpoints return JSON in this format:
-
-**Success Response:**
-
-```json
-{
-  "success": true,
-  "message": "Optional message",
-  "data": {
-    /* actual data */
-  }
-}
-```
-
-**Error Response:**
-
-```json
-{
-  "success": false,
-  "errors": ["Error message 1", "Error message 2"]
-}
-```
 
 ### Core Endpoints (Required)
 
@@ -166,9 +134,30 @@ All endpoints return JSON in this format:
 - `PUT /appointments/:id` - Update appointment
 - `DELETE /appointments/:id` - Delete appointment
 
-## Design Decisions & Assumptions
+All endpoints return JSON in this format:
 
-### Data Validation Strategy
+**Success Response:**
+
+```json
+{
+  "success": true,
+  "message": "Optional message",
+  "data": {
+    /* actual data */
+  }
+}
+```
+
+**Error Response:**
+
+```json
+{
+  "success": false,
+  "errors": ["Error message 1", "Error message 2"]
+}
+```
+
+## Design Decisions & Validation Assumptions
 
 - **Client validation** - Name (2-100 chars), unique email, phone required
 - **Appointment validation** - Time required, must be future date
@@ -183,8 +172,6 @@ All endpoints return JSON in this format:
 - **Validation failures** - Detailed field-level error information
 
 ## Background Jobs
-
-### Data Sync Simulation
 
 **Job:** `DataSyncJob`  
 **Purpose:** Simulates periodic synchronization with external systems  
