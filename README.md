@@ -9,6 +9,7 @@ A clean, focused Rails API for managing clients and appointments with PostgreSQL
 - [Architecture Overview](#architecture-overview)
 - [API Endpoints](#api-endpoints)
 - [Design Decisions & Validation Assumptions](#design-decisions--validation-assumptions)
+- [Mock Server Integration](#mock-server-integration)
 - [Error Handling](#error-handling)
 - [Background Jobs](#background-jobs)
 - [Time Investment](#time-investment)
@@ -181,18 +182,90 @@ All endpoints return JSON in this format:
 - **Missing records** - Clear 404 responses with specific error messages
 - **Validation failures** - Detailed field-level error information
 
+## Mock Server Integration
+
+This API integrates with a **Postman mock server** to demonstrate multi-data-source architecture patterns commonly used in enterprise applications.
+
+### Configuration
+
+The mock server integration is configured via environment variables:
+
+```bash
+# Mock Server Configuration
+MOCK_SERVER_URL=https://a0563492-369f-49d5-9f4f-647b5b994c95.mock.pstmn.io
+ENABLE_MOCK_SYNC=true
+```
+
+### How It Works
+
+1. **Dual Data Sources**: The API serves as an integration layer between:
+
+   - **Local PostgreSQL database** (primary storage)
+   - **External mock server** (simulates CRM/legacy systems)
+
+2. **Data Merging**: API endpoints automatically merge data from both sources:
+
+   - Local data tagged with `"source": "local"`
+   - External data tagged with `"source": "external"`
+   - Duplicate prevention via email uniqueness for clients
+
+3. **Bidirectional Sync**: Background jobs sync data between systems
+
+### API Behavior
+
+- **GET /clients**: Returns merged client data from both local DB and mock server
+- **GET /appointments**: Returns merged appointment data from both sources
+- **POST /clients**: Creates locally + syncs to mock server (non-blocking)
+- **POST /appointments**: Creates locally + syncs to mock server (non-blocking)
+
+### Health Monitoring
+
+```bash
+# Check overall system health including external API
+curl http://localhost:3000/health
+
+# Response includes:
+# - Database connection status
+# - Mock server connectivity
+# - Sync enablement status
+```
+
 ## Background Jobs
 
 **Job:** `DataSyncJob`  
-**Purpose:** Simulates periodic synchronization with external systems  
-**Implementation:** Updates `updated_at` timestamps on all records  
-**Frequency:** On-demand for demonstration
+**Purpose:** Bidirectional data synchronization with external mock server  
+**Implementation:**
+
+- Fetches clients/appointments from mock server
+- Creates/updates local records based on external data
+- Handles conflicts and validation errors gracefully
+- Logs sync operations and statistics
 
 **Usage:**
 
 ```bash
-# Test sync job
+# Manual sync execution
 rails runner "DataSyncJob.perform_now"
+
+# Monitor sync results in logs
+tail -f log/development.log
+```
+
+### Setting Up Your Own Mock Server
+
+To set up your own Postman mock server:
+
+1. **Import Collection**: Import your API collection into Postman
+2. **Create Mock Server**:
+   - Select "Mock servers" in Postman sidebar
+   - Click "Create mock server"
+   - Choose your collection
+   - Configure server settings (public/private)
+3. **Get Mock URL**: Copy the generated mock server URL
+4. **Update Environment**: Replace `MOCK_SERVER_URL` in `.env` with your mock URL
+5. **Add Response Examples**: Add example responses to your collection requests
+6. **Test Integration**: Verify the health check endpoint shows external API as healthy
+
 ```
 
 ## Time Investment
@@ -204,6 +277,9 @@ rails runner "DataSyncJob.perform_now"
 - **Error handling & validation** - 1.5 hours
 - **Background job implementation** - 1 hour
 - **API testing & debugging** - 0.5 hour
+- **Mock server integration** - 3 hours
+- **Multi-data-source architecture** - 2 hours
 - **Documentation & README** - 1 hours
 
-**Total Time:** ~10 hours
+**Total Time:** ~15 hours
+```

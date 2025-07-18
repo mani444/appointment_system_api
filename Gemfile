@@ -16,6 +16,10 @@ gem "bootsnap", require: false
 # CORS for API
 gem "rack-cors"
 
+# HTTP Client
+gem "faraday"
+
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
+  gem "dotenv-rails"
 end
