@@ -34,6 +34,9 @@ class ExternalApiService
   end
 
   def fetch_appointments
+    # Temporarily disabled - hiding mock server data
+    return []
+    
     return [] unless mock_sync_enabled?
 
     begin
