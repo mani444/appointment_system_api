@@ -44,11 +44,11 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Use memory cache store for simple API
-  config.cache_store = :memory_store
+  # Use database-backed cache for production reliability
+  config.cache_store = :null_store
 
-  # Use async adapter for background jobs (simple in-memory queue)
-  config.active_job.queue_adapter = :async
+  # Use GoodJob for production-ready background jobs
+  config.active_job.queue_adapter = :good_job
 
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.

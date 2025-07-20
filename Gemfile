@@ -19,6 +19,9 @@ gem "rack-cors"
 # HTTP Client
 gem "faraday"
 
+# Production-ready background jobs
+gem "good_job"
+
 group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
   gem "dotenv-rails"
