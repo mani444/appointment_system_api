@@ -9,7 +9,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     # Environment-specific origins
     origins Rails.env.production? ? 
-      ENV.fetch('ALLOWED_ORIGINS', 'https://yourdomain.com').split(',') : 
+      ENV.fetch('ALLOWED_ORIGINS', 'https://appointment-system-fe-lac.vercel.app,http://localhost:5173').split(',') : 
       '*'
 
     resource "*",
