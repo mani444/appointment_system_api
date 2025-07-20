@@ -22,8 +22,4 @@ test:
 
 production:
   <<: *default
-  database: appointment_system_api_production
-  username: postgres
-  password: 4045
-  host: localhost
-  port: 5433
+  url: <%= ENV['DATABASE_URL'] %>
