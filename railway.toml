@@ -1,10 +1,10 @@
 [build]
-builder = "herokuish"
+builder = "NIXPACKS"
 
 [deploy]
 healthcheckPath = "/up"
 healthcheckTimeout = 100
-restartPolicyType = "on_failure"
+restartPolicyType = "ON_FAILURE"
 
 [env]
 RAILS_ENV = "production"
