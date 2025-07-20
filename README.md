@@ -266,7 +266,6 @@ To set up your own Postman mock server:
 5. **Add Response Examples**: Add example responses to your collection requests
 6. **Test Integration**: Verify the health check endpoint shows external API as healthy
 
-```
 
 ## Time Investment
 
@@ -282,4 +281,3 @@ To set up your own Postman mock server:
 - **Documentation & README** - 1 hours
 
 **Total Time:** ~15 hours
-```
